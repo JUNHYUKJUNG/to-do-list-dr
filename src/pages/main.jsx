@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CreateTodo from "../components/CreateTodo";
+import TodoCard from "../components/TodoCard";
 
 const Main = () => {
   const [todos, setTodos] = useState([]);
@@ -13,7 +14,6 @@ const Main = () => {
     const parsedTodos = JSON.parse(localTodos);
 
     setTodos(parsedTodos);
-
     setLastTodoId(parsedTodos[parsedTodos.length - 1].id);
   };
 
@@ -23,19 +23,13 @@ const Main = () => {
 
   return (
     <main className="min-h-screen max-w-screen-md mx-auto">
-      <h1 className="text-center text-4xl font-bold py-12">To do list</h1>
+      <h1 className="text-center text-4xl font-bold py-12">오늘 할 일</h1>
       <CreateTodo todos={todos} getTodos={getTodos} lastTodoId={lastTodoId} />
       <ul className="w-96 mx-auto mt-12 h-[30rem] overflow-y-auto">
         {todos.length === 0
-          ? "비어있을 때"
+          ? "없음"
           : todos.map((v, i) => {
-              return (
-                <li key={i} className="h-12 flex items-center text-xl">
-                  <span className="w-1/12 text-right">{v.id}</span>
-                  <span className="w-8/12 pl-2">{v.title}</span>
-                  <button className="w-3/12 hover:font-bold">Detail</button>
-                </li>
-              );
+              return <TodoCard key={i} todo={v} />;
             })}
       </ul>
     </main>
